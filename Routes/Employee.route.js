@@ -28,22 +28,65 @@ router.post('/addEmployee', async (req, res) => {
     }
 });
 
-router.get('/editEmployee/:id', async (req, res) => {
+// Find employee by ID
+router.get('/employee/:id', async (req, res) => {
     const { id } = req.params;
   
     try {
       const employee = await EmployeeModel.findById(id);
-  
       if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
       }
-  
-      return res.json(employee);
+      res.json(employee);
     } catch (error) {
-      console.error('Error fetching employee:', error);
-      return res.status(500).json({ message: 'Server error' });
+      console.error('Error finding employee:', error);
+      res.status(500).json({ message: 'Server error' });
     }
 });
+
+// Update employee by ID
+router.put('/updateEmployee/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const updatedEmployee = await EmployeeModel.findByIdAndUpdate(
+        id,
+        req.body,
+        {
+          new: true,           // Return the updated document
+          runValidators: true  // Validate update against schema
+        }
+      );
+  
+      if (!updatedEmployee) {
+        return res.status(404).json({ message: 'Employee not found' });
+      }
+  
+      res.json(updatedEmployee);
+    } catch (error) {
+      console.error('Error updating employee:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+});
+  
+// Delete employee by ID
+router.delete('/employee/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const deletedEmployee = await EmployeeModel.findByIdAndDelete(id);
+  
+      if (!deletedEmployee) {
+        return res.status(404).json({ message: 'Employee not found' });
+      }
+  
+      res.json({ message: 'Employee deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+});
+  
   
 
 module.exports = router;
