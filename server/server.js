@@ -6,7 +6,7 @@
  mongoose = require('mongoose');
  
  // MongoDB Databse url
- var mongoDatabase = 'mongodb+srv://pamudauposath:123@todoappcluster.hamne3r.mongodb.net/';
+ var mongoDatabase = "mongodb+srv://pamudauposath:123@todoappcluster.hamne3r.mongodb.net/employeeDetails?retryWrites=true&w=majority";
 
  // Connect Mongodb Database
  mongoose.connect(mongoDatabase, { useNewUrlParser: true }).then(
