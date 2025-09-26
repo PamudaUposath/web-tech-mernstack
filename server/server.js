@@ -1,46 +1,35 @@
- // Imported required packages
- const express = require('express'),
- path = require('path'),
- bodyParser = require('body-parser'),
- cors = require('cors'),
- mongoose = require('mongoose');
- 
- // MongoDB Databse url
- var mongoDatabase = "mongodb+srv://pamudauposath:123@todoappcluster.hamne3r.mongodb.net/employeeDetails?retryWrites=true&w=majority";
+ // Import required packages
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const path = require('path');
 
- // Connect Mongodb Database
- mongoose.connect(mongoDatabase, { useNewUrlParser: true }).then(
- () => { console.log('Database is connected') },
- err => { console.log('There is problem while connecting database ' + err) }
- );
- 
- // Created express server
- const app = express();
- mongoose.Promise = global.Promise;
- 
- // Connect Mongodb Database
- mongoose.connect(mongoDatabase, { useNewUrlParser: true }).then(
- () => { console.log('Database is connected') },
- err => { console.log('There is problem while connecting database ' + err) }
- );
- 
- // All the express routes
- const employeeRoutes = require('../Routes/Employee.route');
- 
- // Conver incoming data to JSON format
- app.use(bodyParser.json());
- 
- // Enabled CORS
- app.use(cors());
- 
- // Setup for the server port number
- const port = process.env.PORT || 4000;
- 
- // Routes Configuration
- app.use('/employees', employeeRoutes);
+// MongoDB connection string
+const mongoDatabase = 'mongodb+srv://pamudauposath:123@todoappcluster.hamne3r.mongodb.net/employeeDetails?retryWrites=true&w=majority'; // Replace this with your actual MongoDB URI
 
- 
- // Staring our express server
- const server = app.listen(port, function () {
- console.log('Server Lisening On Port : ' + port);
- });
+// Connect to MongoDB database
+mongoose.connect(mongoDatabase, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Database is connected'))
+  .catch(err => console.log('There is a problem connecting to the database: ' + err));
+
+// Initialize Express app
+const app = express();
+
+// Middleware
+app.use(bodyParser.json());
+app.use(cors());
+
+// Import employee routes
+const employeeRoutes = require('../Routes/Employee.route');
+
+// Setup routes prefix
+app.use('/employees', employeeRoutes);
+
+// Setup server port
+const port = process.env.PORT || 4000;
+
+// Start server
+app.listen(port, () => {
+  console.log('Server listening on port: ' + port);
+});

@@ -1,20 +1,20 @@
- // Importing important packages
- const express = require('express');
- 
- // Using express and routes
- const app = express();
- const employeeRoute = express.Router();
- 
- // Employee module which is required and imported
- let employeeModel = require('../Model/Employee');
- 
- // To Get List Of Employees
-employeeRoute.route('/').get(async function (req, res) {
-    try {
-        const employees = await employeeModel.find();
-        res.json(employees);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Server Error");
-    }
+const express = require('express');
+const router = express.Router();
+
+// Import your Employee model (make sure you have this defined)
+const EmployeeModel = require('../Model/Employee.model');
+
+// Route to get list of employees
+router.get('/', async (req, res) => {
+  try {
+    const employees = await EmployeeModel.find();
+    res.json(employees);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 });
+
+// You can add more routes here (POST, PUT, DELETE) for employees
+
+module.exports = router;
