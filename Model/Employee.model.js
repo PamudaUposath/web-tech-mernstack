@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 
 const EmployeeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  position: String,
-  department: String,
-  salary: Number,
-  dateJoined: { type: Date, default: Date.now }
+  firstName: String,
+  lastName: String,
+  email: { type: String, required: true },
+  phone: String,
+  dateJoined: { type: Date, default: Date.now },
+  versionKey: false  // disables __v field
 });
 
 module.exports = mongoose.model('Employee', EmployeeSchema);

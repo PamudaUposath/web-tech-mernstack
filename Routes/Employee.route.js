@@ -15,6 +15,35 @@ router.get('/', async (req, res) => {
   }
 });
 
-// You can add more routes here (POST, PUT, DELETE) for employees
+// Route to add new employee
+router.post('/addEmployee', async (req, res) => {
+    console.log('Received body:', req.body); // log request body
+    try {
+      const employee = new EmployeeModel(req.body);
+      const savedEmployee = await employee.save();
+      res.status(201).json(savedEmployee);
+    } catch (err) {
+      console.error(err);
+      res.status(400).send('Error saving employee');
+    }
+});
+
+router.get('/editEmployee/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const employee = await EmployeeModel.findById(id);
+  
+      if (!employee) {
+        return res.status(404).json({ message: 'Employee not found' });
+      }
+  
+      return res.json(employee);
+    } catch (error) {
+      console.error('Error fetching employee:', error);
+      return res.status(500).json({ message: 'Server error' });
+    }
+});
+  
 
 module.exports = router;
