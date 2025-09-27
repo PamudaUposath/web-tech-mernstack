@@ -1,3 +1,4 @@
+require('dotenv').config();
  // Import required packages
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -6,7 +7,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 // MongoDB connection string
-const mongoDatabase = 'mongodb+srv://pamudauposath:123@todoappcluster.hamne3r.mongodb.net/employeeDetails?retryWrites=true&w=majority'; // Replace this with your actual MongoDB URI
+const mongoDatabase = process.env.MONGODB_URI;
 
 // Connect to MongoDB database
 mongoose.connect(mongoDatabase, { useNewUrlParser: true, useUnifiedTopology: true })
